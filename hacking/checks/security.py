@@ -11,6 +11,7 @@
 #  under the License.
 
 from hacking import core
+import re
 
 
 @core.flake8ext
@@ -21,6 +22,16 @@ def hacking_no_pickle(logical_line):
     """
     if 'import pickle' in logical_line:
         yield (0, "S006: use of pickle not allowed")
+
+
+@core.flake8ext
+def hacking_no_inline_passwords(logical_line):
+    """
+    S007
+    Check for any default passwords, or where not: password='%s'
+    """
+    if re.compile(r".*password\s*=\s*['\"](?!%s)").match(logical_line):
+        yield(0, "S007: use of default password is not allowed")
 
 
 @core.flake8ext
