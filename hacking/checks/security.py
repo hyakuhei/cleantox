@@ -62,7 +62,6 @@ def hacking_no_pickle(logical_line):
 
 
 @core.flake8ext
-<<<<<<< HEAD
 def hacking_no_inline_passwords(logical_line):
     """
     S007
@@ -70,7 +69,8 @@ def hacking_no_inline_passwords(logical_line):
     """
     if re.compile(r".*password\s*=\s*['\"](?!%s)").match(logical_line):
         yield(0, "S007: use of default password is not allowed")
-=======
+
+
 def sec_wildcard_injection(logical_line, physical_line, tokens):
     """Check for wildcard injection vulnerabilities - OS commands with
     unexpected wildcard expansion behavior.  Please see link:
