@@ -73,7 +73,8 @@ def hacking_no_inline_passwords(logical_line):
         yield(0, "S007: use of default password is not allowed")
 
 
-def sec_wildcard_injection(logical_line, physical_line, tokens):
+@core.flake8ext
+def sec_wildcard_injection(logical_line, physical_line):
     """Check for wildcard injection vulnerabilities - OS commands with
     unexpected wildcard expansion behavior.  Please see link:
     http://www.defensecode.com/public/DefenseCode_Unix_WildCards_Gone_Wild.txt
