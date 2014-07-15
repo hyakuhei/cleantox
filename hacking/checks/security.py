@@ -63,6 +63,16 @@ def hacking_creating_temp_file_or_dir(logical_line):
 
 
 @core.flake8ext
+def hacking_using_md5_hash_alg(logical_line):
+    """Check for use of md5 hash algorithm
+
+    S005
+    """
+    if 'md5' in logical_line.lower():
+        yield (0, "S005: use of md5 hash algorithm not recommended. Consider using Sha1 or Sha256")
+
+
+@core.flake8ext
 def hacking_no_pickle(logical_line):
     """Check for use of pickle
 
