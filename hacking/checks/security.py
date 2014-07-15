@@ -104,6 +104,7 @@ def hacking_service_binding_all_interfaces(logical_line, physical_line):
         if '0.0.0.0' in physical_line:
             yield (0, "S009: binding to all interfaces")
 
+
 @core.flake8ext
 def hacking_creating_temp_file_or_dir(logical_line):
     """Check for use of tempfile or mktemp
@@ -113,3 +114,20 @@ def hacking_creating_temp_file_or_dir(logical_line):
     if (('import tempfile' in logical_line) or
            ('mktemp' in logical_line)):
         yield (0, "S004: Creating temporary file or directory")
+
+
+@core.flake8ext
+def hacking_check_for_bad_ctypes(logical_line, physical_line, lines):
+    """Check for use of bad C functions with bad ctypes
+
+    S013
+    """
+    banned_functions = ['strcpy(', 'strlen(', 'strcmp(', 'strcmp('
+                        'strcat(', 'strdup(', 'sprintf(',
+                        'wcscpy(', 'wcslen(', ' gets(', '.gets(']
+
+    for func in banned_functions:
+        if func in physical_line:
+            for line in lines:
+                if 'ctypes' in line:
+                    yield (0, "S013: Bad C Function: %s" % func)
