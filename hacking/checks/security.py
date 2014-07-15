@@ -67,7 +67,9 @@ def hacking_no_inline_passwords(logical_line):
     S007
     Check for default passwords, or where not: password='%s'
     """
-    if re.compile(r".*password\s*=\s*['\"](?!%s)").match(logical_line):
+    blank = re.compile(r".*password\s*=\s*['\"]['\"].*")
+    default = re.compile(r".*password\s*=\s*['\"](?!%s)")
+    if not blank.match(logical_line) and default.match(logical_line):
         yield(0, "S007: use of default password is not allowed")
 
 
@@ -103,6 +105,7 @@ def hacking_service_binding_all_interfaces(logical_line, physical_line):
     if 'bind' in logical_line:
         if '0.0.0.0' in physical_line:
             yield (0, "S009: binding to all interfaces")
+
 
 @core.flake8ext
 def hacking_creating_temp_file_or_dir(logical_line):
