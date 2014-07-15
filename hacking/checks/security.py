@@ -14,6 +14,43 @@ from hacking import core
 import re
 
 
+wildcard_injection_os_command_re = re.compile(
+      r".*?(?:system|popen|Popen).*?(?:chown|chmod|tar|rsync).*?\*")
+
+promiscous_file_perm_oct_re = re.compile(
+    r".*chmod\((.*0o{0,1}[0-7][0-7][2367])\)")
+
+promiscous_file_perm_stat_re = re.compile(
+    r".*chmod\(.*(stat.S_IWOTH|stat.S_IRWXO).*\)")
+
+
+@core.flake8ext
+def sec_shell_eq_true(logical_line):
+    """Check for shell injection vulnerabilities in subprocess calls
+
+    S001
+    """
+    line_no_sp = logical_line.replace(' ', '')
+    if 'shell=True' in line_no_sp and 'Popen' in line_no_sp:
+        yield(0, "S001: Security risk: use of shell=True in Popen call.")
+
+
+@core.flake8ext
+def sec_chmod_perms(logical_line):
+    """Check for promiscuous file permissions in chmod calls
+
+    S002
+    """
+    re_oct_check = promiscous_file_perm_oct_re.match(logical_line)
+    re_stat_check = promiscous_file_perm_stat_re.match(logical_line)
+    if re_oct_check:
+        yield (0, "S002: Chmod with dangerous file permissions: " +
+               re_oct_check.group() + ".")
+    if re_stat_check:
+        yield (0, "S002: Chmod with dangerous file permissions: " +
+               re_stat_check.group() + ".")
+
+
 @core.flake8ext
 def hacking_no_pickle(logical_line):
     """Check for use of pickle
@@ -25,6 +62,7 @@ def hacking_no_pickle(logical_line):
 
 
 @core.flake8ext
+<<<<<<< HEAD
 def hacking_no_inline_passwords(logical_line):
     """
     S007
@@ -32,6 +70,21 @@ def hacking_no_inline_passwords(logical_line):
     """
     if re.compile(r".*password\s*=\s*['\"](?!%s)").match(logical_line):
         yield(0, "S007: use of default password is not allowed")
+=======
+def sec_wildcard_injection(logical_line, physical_line, tokens):
+    """Check for wildcard injection vulnerabilities - OS commands with
+    unexpected wildcard expansion behavior.  Please see link:
+    http://www.defensecode.com/public/DefenseCode_Unix_WildCards_Gone_Wild.txt
+
+    S008
+    """
+    line_no_sp = physical_line.replace(' ', '')
+    res = wildcard_injection_os_command_re.match(line_no_sp)
+    if res:
+        print(physical_line)
+        print(tokens[0])
+        yield (0, "S008: Wildcard injection vulnerability with OS command")
+>>>>>>> 4c7e65c414ee466c39274f3e62e7807865562648
 
 
 @core.flake8ext
