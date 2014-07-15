@@ -21,3 +21,22 @@ def hacking_no_pickle(logical_line):
     """
     if 'import pickle' in logical_line:
         yield (0, "S006: use of pickle not allowed")
+
+
+@core.flake8ext
+def hacking_service_binding_all_interfaces(logical_line, physical_line):
+    """Check for use of pickle
+
+    S009
+    """
+    #TODO: Check for pecan default bind
+    #TODO: Check for eventlet default bind
+    if 'eventlet.listen' in logical_line:
+        if '0.0.0.0' in physical_line:
+            yield (0, "S009: binding to all interfaces")
+    if 'host' in logical_line:
+        if '0.0.0.0' in physical_line:
+            yield (0, "S009: binding to all interfaces")
+    if 'bind' in logical_line:
+        if '0.0.0.0' in physical_line:
+            yield (0, "S009: binding to all interfaces")
