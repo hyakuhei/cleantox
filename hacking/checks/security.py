@@ -65,7 +65,7 @@ def hacking_no_pickle(logical_line):
 def hacking_no_inline_passwords(logical_line):
     """
     S007
-    Check for any default passwords, or where not: password='%s'
+    Check for default passwords, or where not: password='%s'
     """
     if re.compile(r".*password\s*=\s*['\"](?!%s)").match(logical_line):
         yield(0, "S007: use of default password is not allowed")
