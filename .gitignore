@@ -19,6 +19,12 @@ var
 sdist
 develop-eggs
 .installed.cfg
+cinder
+glance
+keystone
+neutron
+nova
+swift
 
 # Other
 .testrepository
