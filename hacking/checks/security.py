@@ -116,18 +116,10 @@ def hacking_service_binding_all_interfaces(logical_line, physical_line):
         if '0.0.0.0' in physical_line:
             yield (0, "S009: binding to all interfaces")
 
-<<<<<<< HEAD
 
 @core.flake8ext
 def hacking_creating_temp_file_or_dir(logical_line):
     """Check for use of tempfile or mktemp
-=======
->>>>>>> master
-
-@core.flake8ext
-def hacking_check_vulnerable_ssl(logical_line):
-    """
-<<<<<<< HEAD
     if (('import tempfile' in logical_line) or
            ('mktemp' in logical_line)):
         yield (0, "S004: Creating temporary file or directory")
@@ -148,11 +140,14 @@ def hacking_check_for_bad_ctypes(logical_line, physical_line, lines):
             for line in lines:
                 if 'ctypes' in line:
                     yield (0, "S013: Bad C Function: %s" % func)
-=======
+
+
+@core.flake8ext
+def hacking_check_vulnerable_ssl(logical_line):
+    """
     Check for vulnerable SSL
     """
     vuln_protos = ['PROTOCOL_SSLv2', 'PROTOCOL_SSLv23', 'PROTOCOL_SSLv3']
     for proto in vuln_protos:
         if proto in logical_line:
             yield(0, "S014: Vulnerable SSL Protocol")
->>>>>>> master
