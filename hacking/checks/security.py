@@ -119,7 +119,9 @@ def hacking_service_binding_all_interfaces(logical_line, physical_line):
 
 @core.flake8ext
 def hacking_creating_temp_file_or_dir(logical_line):
-    """Check for use of tempfile or mktemp
+    """Check for use of tempfile or 
+    
+    """
     if (('import tempfile' in logical_line) or
            ('mktemp' in logical_line)):
         yield (0, "S004: Creating temporary file or directory")
