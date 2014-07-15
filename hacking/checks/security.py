@@ -83,8 +83,6 @@ def sec_wildcard_injection(logical_line, physical_line, tokens):
     line_no_sp = physical_line.replace(' ', '')
     res = wildcard_injection_os_command_re.match(line_no_sp)
     if res:
-        print(physical_line)
-        print(tokens[0])
         yield (0, "S008: Wildcard injection vulnerability with OS command")
 
 
