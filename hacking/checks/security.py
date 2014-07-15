@@ -84,7 +84,6 @@ def sec_wildcard_injection(logical_line, physical_line, tokens):
         print(physical_line)
         print(tokens[0])
         yield (0, "S008: Wildcard injection vulnerability with OS command")
->>>>>>> 4c7e65c414ee466c39274f3e62e7807865562648
 
 
 @core.flake8ext
