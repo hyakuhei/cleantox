@@ -103,3 +103,13 @@ def hacking_service_binding_all_interfaces(logical_line, physical_line):
     if 'bind' in logical_line:
         if '0.0.0.0' in physical_line:
             yield (0, "S009: binding to all interfaces")
+
+@core.flake8ext
+def hacking_creating_temp_file_or_dir(logical_line):
+    """Check for use of tempfile or mktemp
+
+    S004
+    """
+    if (('import tempfile' in logical_line) or
+           ('mktemp' in logical_line)):
+        yield (0, "S004: Creating temporary file or directory")
