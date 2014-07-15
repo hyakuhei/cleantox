@@ -116,3 +116,14 @@ def hacking_creating_temp_file_or_dir(logical_line):
     if (('import tempfile' in logical_line) or
            ('mktemp' in logical_line)):
         yield (0, "S004: Creating temporary file or directory")
+    
+@core.flake8ext
+def hacking_check_vulnerable_ssl(logical_line):
+    """
+    Check for vulnerable SSL
+    """
+    vuln_protos = ['PROTOCOL_SSLv2', 'PROTOCOL_SSLv23', 'PROTOCOL_SSLv3']
+    for proto in vuln_protos:
+        if proto in logical_line:
+            yield(0, "S014: Vulnerable SSL Protocol")
+
